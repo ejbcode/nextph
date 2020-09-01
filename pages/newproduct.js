@@ -1,11 +1,13 @@
 import Layout from "../components/Layout";
 
-export default function Home() {
+const NewProdcut = () => {
   return (
     <>
       <Layout>
-        <h1>Inicio</h1>
+        <h1>New product</h1>
       </Layout>
     </>
   );
-}
+};
+
+export default NewProdcut;
