@@ -6,7 +6,7 @@ const Button = styled.a`
   border: 1px solid #d1d1d1;
   padding: 0.8rem 2rem;
   margin-right: 1rem;
-  background-color: ${(props) => (props.bgColor ? "#DA552F" : "#fff")};
+  background-color: ${(props) => (props.bgColor ? "var(--orange)" : "#fff")};
   color: ${(props) => (props.bgColor ? "white" : "#000")};
 
   &:last-of-type {
