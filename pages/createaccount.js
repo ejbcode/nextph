@@ -1,8 +1,12 @@
+import React, { useState } from "react";
+import Router from "next/router";
 import Layout from "../components/Layout";
-import { Form, Field, InputSubmit } from "../components/ui/Form";
+import { Form, Field, InputSubmit, Error } from "../components/ui/Form";
 import { css } from "@emotion/core";
 import useValidation from "../hooks/useValidation";
 import createAccountValidate from "../validate/createAccountValidate";
+import firebase from "../firebase";
+
 const initialState = {
   name: "",
   email: "",
@@ -10,6 +14,8 @@ const initialState = {
 };
 
 const CreateAccount = () => {
+  const [errorMessage, setErrorMessage] = useState();
+
   const {
     value,
     error,
@@ -17,10 +23,17 @@ const CreateAccount = () => {
     handleSubmit,
     handleChange,
   } = useValidation(initialState, createAccountValidate, createAccountFunction);
+
   const { name, email, password } = value;
 
-  function createAccountFunction() {
-    console.log("sdsd");
+  async function createAccountFunction() {
+    try {
+      await firebase.register(name, email, password);
+      Router.push("/");
+    } catch (error) {
+      console.log("error", error.message);
+      setErrorMessage(error.message);
+    }
   }
 
   return (
@@ -34,7 +47,9 @@ const CreateAccount = () => {
         >
           CreateAccount
         </h1>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} noValidate>
+          {error.name && <Error> {error.name} </Error>}
+
           <Field>
             <label htmlFor="name">Name</label>
             <input
@@ -43,8 +58,11 @@ const CreateAccount = () => {
               placeholder="Name"
               value={name}
               name="name"
+              onChange={handleChange}
             />
           </Field>
+          {error.email && <Error> {error.email} </Error>}
+
           <Field>
             <label htmlFor="email">email</label>
             <input
@@ -56,6 +74,9 @@ const CreateAccount = () => {
               onChange={handleChange}
             />
           </Field>
+          {error.password && <Error> {error.password} </Error>}
+          {errorMessage && <Error>{errorMessage}</Error>}
+
           <Field>
             <label htmlFor="password">Password</label>
             <input

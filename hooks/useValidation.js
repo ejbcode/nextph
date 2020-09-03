@@ -8,17 +8,18 @@ const useValidation = (initialState, validate, fn) => {
   useEffect(() => {
     if (submitForm) {
       const noErrors = Object.keys(error).length === 0;
+      console.log(noErrors);
 
       if (noErrors) {
         fn();
       }
       setSubmitForm(false);
     }
-  }, []);
+  }, [error]);
 
   const handleChange = (event) => {
     setValue({
-      ...state,
+      ...value,
       [event.target.name]: event.target.value,
     });
   };

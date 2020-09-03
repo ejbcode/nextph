@@ -13,8 +13,8 @@ export default function createAccountValidate(values) {
 
   if (!values.password) {
     errors.password = "the password field is empty";
-  } else if (values.email < 6) {
-    errors.paswword = "Password must be at least 6 digits";
+  } else if (values.password < 6) {
+    errors.password = "Password must be at least 6 digits";
   }
   return errors;
 }
